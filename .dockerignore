@@ -1,6 +1,7 @@
 .git/
 .gitignore
 README.md
+assets/
 .env
 saves/
 storage/

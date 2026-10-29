@@ -29,3 +29,4 @@ Thumbs.db
 
 # --- Stray logs ---
 *.log
+opencode*

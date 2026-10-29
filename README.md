@@ -1,7 +1,41 @@
-# Cisco Packet Tracer Docker Image
+<h1 align="center">Cisco Packet Tracer in Docker</h1>
 
-Build a Docker image of Cisco Packet Tracer 9.0.1 and run it headless, with the
-UI reachable from a browser over TCP (noVNC) or from a native VNC client.
+<p align="center">
+  The full Packet Tracer 9.0.1 desktop on a headless server, reachable from any browser.<br>
+  <b>noVNC behind HTTP Basic Auth</b> · <b>native VNC</b> · <b>persistent sessions</b> · no X server on the host
+</p>
+
+<p align="center">
+  <a href="assets/cisco-packet-tracer-docker.png">
+    <img src="assets/cisco-packet-tracer-docker.png" alt="Cisco Packet Tracer 9.0.1 running in a browser via noVNC, with a lab open and a ping from Laptop1">
+  </a>
+</p>
+
+<p align="center">
+  <img alt="Ubuntu 22.04" src="https://img.shields.io/badge/Ubuntu-22.04-E95420?logo=ubuntu&logoColor=white">
+  <img alt="Packet Tracer 9.0.1" src="https://img.shields.io/badge/Packet%20Tracer-9.0.1-1BA0D7">
+  <img alt="Docker Compose" src="https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white">
+  <img alt="UI: noVNC + VNC" src="https://img.shields.io/badge/UI-noVNC%20%2B%20VNC-2E7D32">
+  <img alt="Cisco software not included" src="https://img.shields.io/badge/Cisco%20software-not%20included-C62828">
+</p>
+
+---
+
+## Quick start
+
+```bash
+cp ~/Downloads/CiscoPacketTracer_901_Ubuntu_64bit.deb deb/
+cp .env.example .env        # set HTTP_PASSWORD and VNC_PASSWORD
+docker compose up -d --build
+```
+
+Open <http://localhost:6080/vnc.html> and log in with `HTTP_USER` / `HTTP_PASSWORD`.
+
+- **Browser UI** — nothing to install on the client; works from a tablet.
+- **Auth** — Caddy reverse proxy with HTTP Basic Auth (bcrypt) in front of noVNC.
+- **Persistence** — labs, preferences and the NetAcad session survive restarts.
+- **No FUSE** — the AppImage is extracted at build time, not mounted at runtime.
+- **No Cisco software** — you supply the official `.deb` from NetAcad.
 
 | Port | Use |
 |------|-----|
@@ -92,6 +126,7 @@ docker exec -it packet-tracer cat /tmp/websockify.log      # noVNC
 ├── proxy-entrypoint.sh  # Caddy reverse proxy: Basic Auth in front of noVNC
 ├── compose.yml          # ports 6080/5900, volumes, proxy service
 ├── .env.example         # PUID/PGID, resolution, VNC_PASSWORD, HTTP Basic Auth
+├── assets/              # README screenshot
 ├── deb/                 # .deb downloaded from NetAcad (you place it here)
 │   └── deb.sha256sum    # committed checksum manifest
 ├── saves/               # .pkt/.pka files you save
