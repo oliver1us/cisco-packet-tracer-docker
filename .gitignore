@@ -1,0 +1,31 @@
+# --- Secrets: .env holds HTTP_PASSWORD and VNC_PASSWORD in cleartext ---
+.env
+.env.*
+!.env.example
+
+# --- Runtime data: saves/ holds user labs, storage/ holds config, session and logs ---
+saves/*
+!saves/.gitkeep
+storage/*
+!storage/.gitkeep
+
+# --- Proprietary .deb (~680 MB, not redistributable): download it into ./deb/ (README step 1) ---
+# The checksum IS versioned so users can verify what they download
+deb/*.deb
+
+# --- Build / Docker ---
+docker-compose.override.yml
+*.tar
+*.tar.gz
+
+# --- Editors and OS ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# --- Stray logs ---
+*.log
